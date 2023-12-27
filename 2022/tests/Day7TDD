@@ -1,0 +1,181 @@
+module Day8TDD exposing (..)
+
+import Day7 exposing (..)
+import Expect
+import Parser exposing (DeadEnd, Problem(..), run)
+import Test exposing (Test, describe, skip, test)
+import Tree exposing (singleton, tree)
+
+
+
+{-
+   This file is meant to encurage the use of test driven development.
+
+   You can use a copy of it to get started defining tests for the functions
+   you are creating for a particular problem. Remember to edit the DayX
+   import statement above, and to expose the function you want to test.
+
+   The overall results for each day example inputs are already included
+   in Tests.elm.
+-}
+
+
+suite : Test
+suite =
+    describe "Helper Functions Tests" <|
+        [ test "files" <|
+            \_ ->
+                run files "8033020 d.log\n5626152 d.ext\n7214296 k"
+                    |> Result.withDefault [ errFile ]
+                    |> Expect.equal
+                        [ File 8033020 "d" "log"
+                        , File 5626152 "d" "ext"
+                        , File 7214296 "k" ""
+                        ]
+        , test "directories" <|
+            \_ ->
+                run directories "dir a\ndir b\ndir c"
+                    |> Result.withDefault [ errDir ]
+                    |> Expect.equal
+                        [ Dir "a"
+                        , Dir "b"
+                        , Dir "c"
+                        ]
+        , test "content" <|
+            \_ ->
+                run contents "dir a\n5626152 d.ext\ndir d\n7214296 k"
+                    |> Result.withDefault errCtnt
+                    |> Expect.equal
+                        [ Dir "a"
+                        , File 5626152 "d" "ext"
+                        , Dir "d"
+                        , File 7214296 "k" ""
+                        ]
+        , test "commands" <|
+            \_ ->
+                run commands "$ cd ..\n$ ls\n$ cd a\n$ cd /"
+                    |> Result.withDefault [ errCmd ]
+                    |> Expect.equal
+                        [ CD UpOne
+                        , LS
+                        , CD (DownOne "a")
+                        , CD Home
+                        ]
+        , test "rawData" <|
+            \_ ->
+                run rawData fullExample
+                    |> Result.withDefault [ ( [], [] ) ]
+                    |> Expect.equal
+                        [ ( [ CD Home, LS ]
+                          , [ Dir "a", File 14848514 "b" "txt", File 8504156 "c" "dat", Dir "d" ]
+                          )
+                        , ( [ CD (DownOne "a"), LS ]
+                          , [ Dir "e", File 29116 "f" "", File 2557 "g" "", File 62596 "h" "lst" ]
+                          )
+                        , ( [ CD (DownOne "e"), LS ]
+                          , [ File 584 "i" "" ]
+                          )
+                        , ( [ CD UpOne, CD UpOne, CD (DownOne "d"), LS ]
+                          , [ File 4060174 "j" "", File 8033020 "d" "log", File 5626152 "d" "ext", File 7214296 "k" "" ]
+                          )
+                        ]
+        , test "toTree" <|
+            \_ ->
+                run rawData fullExample
+                    |> Result.withDefault [ ( [], [] ) ]
+                    |> toTree
+                    |> Expect.equal
+                        (tree (Dir "/")
+                            [ tree (Dir "a")
+                                [ tree (Dir "e") [ tree (File 584 "i" "") [] ]
+                                , tree (File 29116 "f" "") []
+                                , tree (File 2557 "g" "") []
+                                , tree (File 62596 "h" "lst") []
+                                ]
+                            , tree (File 14848514 "b" "txt") []
+                            , tree (File 8504156 "c" "dat") []
+                            , tree (Dir "d")
+                                [ tree (File 4060174 "j" "") []
+                                , tree (File 8033020 "d" "log") []
+                                , tree (File 5626152 "d" "ext") []
+                                , tree (File 7214296 "k" "") []
+                                ]
+                            ]
+                        )
+        , test "getSize" <|
+            \_ ->
+                run rawData fullExample
+                    |> Result.withDefault [ ( [], [] ) ]
+                    |> toTree
+                    |> dirSize
+                    |> Expect.equal 48381165
+        ]
+
+
+errStr =
+    "default err"
+
+
+errFile =
+    File 0 "errFile" ""
+
+
+errDir =
+    Dir "errDir"
+
+
+errCmd =
+    CD <| DownOne "errCmd"
+
+
+errCtnt : List Content
+errCtnt =
+    [ errDir, errFile ]
+
+
+fullExample =
+    "$ cd /\n$ ls\ndir a\n14848514 b.txt\n8504156 c.dat\ndir d\n$ cd a\n$ ls\ndir e\n29116 f\n2557 g\n62596 h.lst\n$ cd e\n$ ls\n584 i\n$ cd ..\n$ cd ..\n$ cd d\n$ ls\n4060174 j\n8033020 d.log\n5626152 d.ext\n7214296 k"
+
+
+
+-- parserDeadEndsToStr : List DeadEnd -> String
+-- parserDeadEndsToStr deadEnds =
+--     let
+--         deadEndToString : DeadEnd -> String
+--         deadEndToString deadEnd =
+--             let
+--                 position : String
+--                 position =
+--                     "row:" ++ String.fromInt deadEnd.row ++ " col:" ++ String.fromInt deadEnd.col
+--             in
+--             case deadEnd.problem of
+--                 Expecting str ->
+--                     "Expecting " ++ str ++ "at " ++ position
+--                 ExpectingInt ->
+--                     "ExpectingInt at " ++ position
+--                 ExpectingHex ->
+--                     "ExpectingHex at " ++ position
+--                 ExpectingOctal ->
+--                     "ExpectingOctal at " ++ position
+--                 ExpectingBinary ->
+--                     "ExpectingBinary at " ++ position
+--                 ExpectingFloat ->
+--                     "ExpectingFloat at " ++ position
+--                 ExpectingNumber ->
+--                     "ExpectingNumber at " ++ position
+--                 ExpectingVariable ->
+--                     "ExpectingVariable at " ++ position
+--                 ExpectingSymbol str ->
+--                     "ExpectingSymbol " ++ str ++ " at " ++ position
+--                 ExpectingKeyword str ->
+--                     "ExpectingKeyword " ++ str ++ "at " ++ position
+--                 ExpectingEnd ->
+--                     "ExpectingEnd at " ++ position
+--                 UnexpectedChar ->
+--                     "UnexpectedChar at " ++ position
+--                 Problem str ->
+--                     "ProblemString " ++ str ++ " at " ++ position
+--                 BadRepeat ->
+--                     "BadRepeat at " ++ position
+--     in
+--     List.foldl (++) "" (List.map deadEndToString deadEnds)
