@@ -4,7 +4,7 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
 import Browser.Dom exposing (Element)
-import Day5 as Day
+import Day7 as Day
 import Element exposing (Element, alignTop, centerX, column, el, fill, padding, paddingXY, rgb255, row, text, width)
 import Element.Background as Background exposing (color)
 import Element.Border exposing (rounded)

@@ -1,6 +1,6 @@
 module Day3 exposing (..)
 
-import Dict exposing (Dict, values)
+import Dict
 import Html.Attributes exposing (coords)
 import Json.Decode exposing (dict)
 import Set
@@ -81,7 +81,7 @@ toRangesHelp :
     -> List Part
 toRangesHelp lst coordAcc numAcc lastCoord rsltAcc =
     case lst of
-        ( ( x1, y1 ), c1 ) :: (( ( x2, y2 ), c2 ) as nxt) :: rest ->
+        ( ( x1, y1 ), c1 ) :: (( ( x2, y2 ), _ ) as nxt) :: rest ->
             if x2 == x1 + 1 && y1 == y2 && ( x1, y1 ) /= lastCoord then
                 toRangesHelp (nxt :: rest)
                     (( x1, y1 ) :: coordAcc)

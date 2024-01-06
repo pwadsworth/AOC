@@ -1,7 +1,5 @@
 module Day2 exposing (solution)
 
-import Maybe.Extra as ME
-
 
 solution : ( String -> String, String -> String )
 solution =

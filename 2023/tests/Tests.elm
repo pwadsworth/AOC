@@ -6,6 +6,8 @@ import Day2
 import Day3
 import Day4
 import Day5
+import Day6
+import Day7
 import Expect
 import Test exposing (Test, describe, test)
 
@@ -13,7 +15,7 @@ import Test exposing (Test, describe, test)
 testDay : Int
 testDay =
     -- change this value to the day you want to test
-    5
+    7
 
 
 solutions : Array ( String -> String, String -> String )
@@ -22,7 +24,7 @@ solutions =
        and must expose a "solution" tuple of functions for
        parts 1 and 2 for that day e.g. Day1.solution = (part1Function, part2Function). The functions must be String -> String.
     -}
-    Array.fromList [ Day1.solution, Day2.solution, Day3.solution, Day4.solution, Day5.solution ]
+    Array.fromList [ Day1.solution, Day2.solution, Day3.solution, Day4.solution, Day5.solution, Day6.solution, Day6.solution ]
 
 
 suite : Test
@@ -54,6 +56,8 @@ expectedResults =
         , ( "4361", "467835" )
         , ( "13", "30" )
         , ( "35", "46" )
+        , ( "288", "71503" )
+        , ( "6440", "TBD" )
 
         -- example
         , ( "last day part1 result", "last day part2 result" )
@@ -188,6 +192,14 @@ humidity-to-location map:
 60 56 37
 56 93 4"""
           )
+        , ( """Time:      7  15   30
+Distance:  9  40  200""", """Time:      7  15   30
+Distance:  9  40  200""" )
+        , ( """32T3K 765
+T55J5 684
+KK677 28
+KTJJT 220
+QQQJA 483""", """TBD""" )
 
         -- example
         , ( "last day part1 inputs"

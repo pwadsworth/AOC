@@ -18,11 +18,11 @@ part1 input =
 part2 : String -> String
 part2 input =
     toAlamanac2 input
+        -- |> applyAllMappings2
         |> Debug.toString
 
 
 
--- |> applyAllMappings
 -- |> List.minimum
 -- |> Maybe.map String.fromInt
 -- |> Maybe.withDefault "Err"
@@ -69,14 +69,6 @@ type alias SourceStart =
 
 
 type alias Length =
-    Int
-
-
-type alias SeedStart =
-    Int
-
-
-type alias SeedEnd =
     Int
 
 
@@ -144,7 +136,7 @@ toAlamanac2 input =
         toRange xs =
             case xs of
                 destStart :: sourceStart :: length :: [] ->
-                    -- turn (deststart, sourceStart, length) into (rangeStart, rangeEnd, shift)
+                    -- turns (deststart, sourceStart, length) into (rangeStart, rangeEnd, offset)
                     Just ( destStart, destStart + length - 1, destStart - sourceStart )
 
                 _ ->
@@ -166,6 +158,23 @@ toAlamanac2 input =
 
 applyAllMappings : Almanac -> List Int
 applyAllMappings almnc =
+    let
+        applyMapping : List Range -> Seeds -> List Int
+        applyMapping ranges seeds =
+            List.map (apply ranges) seeds
+
+        apply ranges seed =
+            case ranges of
+                ( destStart, sourceStart, length ) :: rest ->
+                    if seed >= sourceStart && seed < sourceStart + length then
+                        destStart + (seed - sourceStart)
+
+                    else
+                        apply rest seed
+
+                [] ->
+                    seed
+    in
     almnc.seeds
         |> applyMapping almnc.seedToSoil
         |> applyMapping almnc.soilToFert
@@ -176,26 +185,22 @@ applyAllMappings almnc =
         |> applyMapping almnc.humdToloct
 
 
-applyMapping : List Range -> Seeds -> List Int
-applyMapping ranges seeds =
+applyAllMappings2 : Almanac2 -> List ( Int, Int )
+applyAllMappings2 almnc =
     let
-        apply ranges_ seed =
-            case ranges_ of
-                ( destStart, sourceStart, length ) :: rest ->
-                    if seed >= sourceStart && seed < sourceStart + length then
-                        destStart + (seed - sourceStart)
+        applyMapping2 : List Range -> List ( Int, Int ) -> List ( Int, Int )
+        applyMapping2 ranges seeds =
+            List.map (apply ranges) seeds
 
-                    else
-                        apply rest seed
+        apply ranges ( seedStart, seedEnd ) =
+            case ranges of
+                ( rangeStart, rangeEnd, shift ) :: rest ->
+                    --break seed ranges into subranges based on each mapping
+                    Debug.todo "HANDLE RANGE APPLICATION"
 
                 [] ->
-                    seed
+                    Debug.todo "HANDLE RANGE APPLICATION"
     in
-    List.map (apply ranges) seeds
-
-
-applyAllMappings2 : Almanac -> List Int
-applyAllMappings2 almnc =
     almnc.seeds
         |> applyMapping2 almnc.seedToSoil
         |> applyMapping2 almnc.soilToFert
@@ -204,28 +209,6 @@ applyAllMappings2 almnc =
         |> applyMapping2 almnc.ligtToTemp
         |> applyMapping2 almnc.tempToHumd
         |> applyMapping2 almnc.humdToloct
-
-
-applyMapping2 : List Range -> Seeds -> List Int
-applyMapping2 ranges seeds =
-    let
-        apply ranges_ seed =
-            case ranges_ of
-                ( destStart, sourceStart, length ) :: rest ->
-                    if seed >= sourceStart && seed < sourceStart + length then
-                        destStart + (seed - sourceStart)
-
-                    else
-                        apply rest seed
-
-                [] ->
-                    seed
-    in
-    List.map (apply ranges) seeds
-
-
-
--- makeSeedRanges : Almanac -> Almanac
 
 
 makeSeedRanges : List Int -> List ( Int, Int )

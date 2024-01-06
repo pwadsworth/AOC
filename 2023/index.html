@@ -11729,79 +11729,10 @@ var $mdgriffith$elm_ui$Element$row = F2(
 						attrs))),
 			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
 	});
-var $author$project$Day5$applyMapping = F2(
-	function (ranges, seeds) {
-		var apply = F2(
-			function (ranges_, seed) {
-				apply:
-				while (true) {
-					if (ranges_.b) {
-						var _v1 = ranges_.a;
-						var destStart = _v1.a;
-						var sourceStart = _v1.b;
-						var length = _v1.c;
-						var rest = ranges_.b;
-						if ((_Utils_cmp(seed, sourceStart) > -1) && (_Utils_cmp(seed, sourceStart + length) < 0)) {
-							return destStart + (seed - sourceStart);
-						} else {
-							var $temp$ranges_ = rest,
-								$temp$seed = seed;
-							ranges_ = $temp$ranges_;
-							seed = $temp$seed;
-							continue apply;
-						}
-					} else {
-						return seed;
-					}
-				}
-			});
-		return A2(
-			$elm$core$List$map,
-			apply(ranges),
-			seeds);
-	});
-var $author$project$Day5$applyAllMappings = function (almnc) {
-	return A2(
-		$author$project$Day5$applyMapping,
-		almnc.humdToloct,
-		A2(
-			$author$project$Day5$applyMapping,
-			almnc.tempToHumd,
-			A2(
-				$author$project$Day5$applyMapping,
-				almnc.ligtToTemp,
-				A2(
-					$author$project$Day5$applyMapping,
-					almnc.watrToLigt,
-					A2(
-						$author$project$Day5$applyMapping,
-						almnc.fertToWatr,
-						A2(
-							$author$project$Day5$applyMapping,
-							almnc.soilToFert,
-							A2($author$project$Day5$applyMapping, almnc.seedToSoil, almnc.seeds)))))));
+var $elm$core$List$product = function (numbers) {
+	return A3($elm$core$List$foldl, $elm$core$Basics$mul, 1, numbers);
 };
-var $elm$core$List$drop = F2(
-	function (n, list) {
-		drop:
-		while (true) {
-			if (n <= 0) {
-				return list;
-			} else {
-				if (!list.b) {
-					return list;
-				} else {
-					var x = list.a;
-					var xs = list.b;
-					var $temp$n = n - 1,
-						$temp$list = xs;
-					n = $temp$n;
-					list = $temp$list;
-					continue drop;
-				}
-			}
-		}
-	});
+var $elm$core$String$lines = _String_lines;
 var $elm$core$List$tail = function (list) {
 	if (list.b) {
 		var x = list.a;
@@ -11811,331 +11742,128 @@ var $elm$core$List$tail = function (list) {
 		return $elm$core$Maybe$Nothing;
 	}
 };
-var $elm$core$List$takeReverse = F3(
-	function (n, list, kept) {
-		takeReverse:
-		while (true) {
-			if (n <= 0) {
-				return kept;
-			} else {
-				if (!list.b) {
-					return kept;
-				} else {
-					var x = list.a;
-					var xs = list.b;
-					var $temp$n = n - 1,
-						$temp$list = xs,
-						$temp$kept = A2($elm$core$List$cons, x, kept);
-					n = $temp$n;
-					list = $temp$list;
-					kept = $temp$kept;
-					continue takeReverse;
-				}
-			}
-		}
-	});
-var $elm$core$List$takeTailRec = F2(
-	function (n, list) {
-		return $elm$core$List$reverse(
-			A3($elm$core$List$takeReverse, n, list, _List_Nil));
-	});
-var $elm$core$List$takeFast = F3(
-	function (ctr, n, list) {
-		if (n <= 0) {
+var $elm$core$String$toFloat = _String_toFloat;
+var $author$project$Day6$toRaces = function (str) {
+	return function (lst) {
+		if ((lst.b && lst.b.b) && (!lst.b.b.b)) {
+			var time = lst.a;
+			var _v1 = lst.b;
+			var distance = _v1.a;
+			return A3(
+				$elm$core$List$map2,
+				F2(
+					function (t, d) {
+						return {distance: d, time: t};
+					}),
+				time,
+				distance);
+		} else {
 			return _List_Nil;
-		} else {
-			var _v0 = _Utils_Tuple2(n, list);
-			_v0$1:
-			while (true) {
-				_v0$5:
-				while (true) {
-					if (!_v0.b.b) {
-						return list;
-					} else {
-						if (_v0.b.b.b) {
-							switch (_v0.a) {
-								case 1:
-									break _v0$1;
-								case 2:
-									var _v2 = _v0.b;
-									var x = _v2.a;
-									var _v3 = _v2.b;
-									var y = _v3.a;
-									return _List_fromArray(
-										[x, y]);
-								case 3:
-									if (_v0.b.b.b.b) {
-										var _v4 = _v0.b;
-										var x = _v4.a;
-										var _v5 = _v4.b;
-										var y = _v5.a;
-										var _v6 = _v5.b;
-										var z = _v6.a;
-										return _List_fromArray(
-											[x, y, z]);
-									} else {
-										break _v0$5;
-									}
-								default:
-									if (_v0.b.b.b.b && _v0.b.b.b.b.b) {
-										var _v7 = _v0.b;
-										var x = _v7.a;
-										var _v8 = _v7.b;
-										var y = _v8.a;
-										var _v9 = _v8.b;
-										var z = _v9.a;
-										var _v10 = _v9.b;
-										var w = _v10.a;
-										var tl = _v10.b;
-										return (ctr > 1000) ? A2(
-											$elm$core$List$cons,
-											x,
-											A2(
-												$elm$core$List$cons,
-												y,
-												A2(
-													$elm$core$List$cons,
-													z,
-													A2(
-														$elm$core$List$cons,
-														w,
-														A2($elm$core$List$takeTailRec, n - 4, tl))))) : A2(
-											$elm$core$List$cons,
-											x,
-											A2(
-												$elm$core$List$cons,
-												y,
-												A2(
-													$elm$core$List$cons,
-													z,
-													A2(
-														$elm$core$List$cons,
-														w,
-														A3($elm$core$List$takeFast, ctr + 1, n - 4, tl)))));
-									} else {
-										break _v0$5;
-									}
-							}
-						} else {
-							if (_v0.a === 1) {
-								break _v0$1;
-							} else {
-								break _v0$5;
-							}
-						}
-					}
-				}
-				return list;
-			}
-			var _v1 = _v0.b;
-			var x = _v1.a;
-			return _List_fromArray(
-				[x]);
 		}
-	});
-var $elm$core$List$take = F2(
-	function (n, list) {
-		return A3($elm$core$List$takeFast, 0, n, list);
-	});
-var $author$project$Day5$toAlamanac = function (input) {
-	var toRange = function (xs) {
-		if (((xs.b && xs.b.b) && xs.b.b.b) && (!xs.b.b.b.b)) {
-			var destStart = xs.a;
-			var _v3 = xs.b;
-			var sourceStart = _v3.a;
-			var _v4 = _v3.b;
-			var length = _v4.a;
-			return $elm$core$Maybe$Just(
-				_Utils_Tuple3(destStart, sourceStart, length));
-		} else {
-			return $elm$core$Maybe$Nothing;
-		}
-	};
-	var firstValToRange = function (xs) {
-		return $elm$core$List$concat(
-			A2($elm$core$List$take, 1, xs));
-	};
-	var _v0 = function () {
-		var _v1 = A2($elm$core$String$split, '\n\n', input);
-		if (_v1.b) {
-			var seedStr = _v1.a;
-			var mapStr = _v1.b;
-			return _Utils_Tuple2(
-				A2(
-					$elm$core$List$filterMap,
-					$elm$core$String$toInt,
-					A2(
-						$elm$core$String$split,
-						' ',
-						A2($elm$core$String$dropLeft, 7, seedStr))),
+	}(
+		A2(
+			$elm$core$List$map,
+			$elm$core$List$filterMap($elm$core$String$toFloat),
+			A2(
+				$elm$core$List$map,
+				$elm$core$List$filter(
+					A2($elm$core$Basics$composeL, $elm$core$Basics$not, $elm$core$String$isEmpty)),
 				A2(
 					$elm$core$List$map,
-					$elm$core$List$filterMap(toRange),
-					A2(
-						$elm$core$List$map,
-						$elm$core$List$map(
-							$elm$core$List$filterMap($elm$core$String$toInt)),
+					$elm$core$String$split(' '),
+					$elm$core$List$concat(
 						A2(
-							$elm$core$List$map,
-							$elm$core$List$map(
-								$elm$core$String$split(' ')),
+							$elm$core$List$filterMap,
+							$elm$core$List$tail,
 							A2(
-								$elm$core$List$filterMap,
-								$elm$core$List$tail,
-								A2(
-									$elm$core$List$map,
-									$elm$core$String$split('\n'),
-									mapStr))))));
-		} else {
-			return _Utils_Tuple2(_List_Nil, _List_Nil);
-		}
-	}();
-	var seeds = _v0.a;
-	var maps = _v0.b;
-	return {
-		fertToWatr: firstValToRange(
-			A2($elm$core$List$drop, 2, maps)),
-		humdToloct: firstValToRange(
-			A2($elm$core$List$drop, 6, maps)),
-		ligtToTemp: firstValToRange(
-			A2($elm$core$List$drop, 4, maps)),
-		seedToSoil: firstValToRange(
-			A2($elm$core$List$take, 1, maps)),
-		seeds: seeds,
-		soilToFert: firstValToRange(
-			A2($elm$core$List$drop, 1, maps)),
-		tempToHumd: firstValToRange(
-			A2($elm$core$List$drop, 5, maps)),
-		watrToLigt: firstValToRange(
-			A2($elm$core$List$drop, 3, maps))
-	};
+								$elm$core$List$map,
+								$elm$core$String$split(':'),
+								$elm$core$String$lines(str))))))));
 };
-var $author$project$Day5$part1 = function (input) {
+var $author$project$Day6$waysToWin = function (race) {
+	var time = $elm$core$Basics$round(race.time);
+	var distance = $elm$core$Basics$round(race.distance);
 	return A2(
-		$elm$core$Maybe$withDefault,
-		'Err',
+		$elm$core$List$filter,
+		function (d) {
+			return _Utils_cmp(d, distance) > 0;
+		},
 		A2(
-			$elm$core$Maybe$map,
-			$elm$core$String$fromInt,
-			$elm$core$List$minimum(
-				$author$project$Day5$applyAllMappings(
-					$author$project$Day5$toAlamanac(input)))));
+			$elm$core$List$map,
+			function (t) {
+				return t * (time - t);
+			},
+			A2($elm$core$List$range, 0, time)));
 };
-var $author$project$Day5$makeSeedRanges = function (seedMaps) {
-	var listToSeedRanges = F2(
-		function (pairs, acc) {
-			listToSeedRanges:
-			while (true) {
-				if (pairs.b) {
-					if (pairs.b.b) {
-						var start = pairs.a;
-						var _v1 = pairs.b;
-						var length = _v1.a;
-						var rest = _v1.b;
-						var $temp$pairs = rest,
-							$temp$acc = A2(
-							$elm$core$List$cons,
-							_Utils_Tuple2(start, start + length),
-							acc);
-						pairs = $temp$pairs;
-						acc = $temp$acc;
-						continue listToSeedRanges;
-					} else {
-						var a = pairs.a;
-						return A2(
-							$elm$core$List$cons,
-							_Utils_Tuple2(a, a),
-							acc);
-					}
-				} else {
-					return acc;
-				}
-			}
-		});
-	return A2(listToSeedRanges, seedMaps, _List_Nil);
+var $author$project$Day6$part1 = function (input) {
+	return $elm$core$String$fromInt(
+		$elm$core$List$product(
+			A2(
+				$elm$core$List$map,
+				$elm$core$List$length,
+				A2(
+					$elm$core$List$map,
+					$author$project$Day6$waysToWin,
+					$author$project$Day6$toRaces(input)))));
 };
-var $author$project$Day5$toAlamanac2 = function (input) {
-	var toRange = function (xs) {
-		if (((xs.b && xs.b.b) && xs.b.b.b) && (!xs.b.b.b.b)) {
-			var destStart = xs.a;
-			var _v3 = xs.b;
-			var sourceStart = _v3.a;
-			var _v4 = _v3.b;
-			var length = _v4.a;
-			return $elm$core$Maybe$Just(
-				_Utils_Tuple3(destStart, (destStart + length) - 1, destStart - sourceStart));
+var $elm$core$Basics$pow = _Basics_pow;
+var $elm$core$Basics$sqrt = _Basics_sqrt;
+var $author$project$Day6$solve = function (race) {
+	var xVertex = race.time / 2;
+	var yVertex = A2($elm$core$Basics$pow, xVertex, 2);
+	var isInt = function (n) {
+		return _Utils_eq(
+			n,
+			$elm$core$Basics$round(n));
+	};
+	var acc = -1;
+	var parabola = function (x) {
+		return (acc * A2($elm$core$Basics$pow, x - xVertex, 2)) + yVertex;
+	};
+	var roundingError = isInt(
+		parabola(xVertex)) ? 1 : 0;
+	var solveForX = function (y) {
+		return ((-1) * $elm$core$Basics$sqrt((y - yVertex) / acc)) + xVertex;
+	};
+	var lowerBound = solveForX(race.distance);
+	return $elm$core$Basics$round(2 * (xVertex - lowerBound)) - roundingError;
+};
+var $elm$core$String$filter = _String_filter;
+var $author$project$Day6$toRace = function (str) {
+	return function (lst) {
+		if ((lst.b && lst.b.b) && (!lst.b.b.b)) {
+			var time = lst.a;
+			var _v1 = lst.b;
+			var distance = _v1.a;
+			return {distance: distance, time: time};
 		} else {
-			return $elm$core$Maybe$Nothing;
+			return {distance: -1, time: -1};
 		}
-	};
-	var firstValToRange = function (xs) {
-		return $elm$core$List$concat(
-			A2($elm$core$List$take, 1, xs));
-	};
-	var _v0 = function () {
-		var _v1 = A2($elm$core$String$split, '\n\n', input);
-		if (_v1.b) {
-			var seedStr = _v1.a;
-			var mapStr = _v1.b;
-			return _Utils_Tuple2(
-				$author$project$Day5$makeSeedRanges(
+	}(
+		A2(
+			$elm$core$List$filterMap,
+			$elm$core$String$toFloat,
+			A2(
+				$elm$core$List$map,
+				$elm$core$String$filter($elm$core$Char$isDigit),
+				$elm$core$List$concat(
 					A2(
 						$elm$core$List$filterMap,
-						$elm$core$String$toInt,
-						A2(
-							$elm$core$String$split,
-							' ',
-							A2($elm$core$String$dropLeft, 7, seedStr)))),
-				A2(
-					$elm$core$List$map,
-					$elm$core$List$filterMap(toRange),
-					A2(
-						$elm$core$List$map,
-						$elm$core$List$map(
-							$elm$core$List$filterMap($elm$core$String$toInt)),
+						$elm$core$List$tail,
 						A2(
 							$elm$core$List$map,
-							$elm$core$List$map(
-								$elm$core$String$split(' ')),
-							A2(
-								$elm$core$List$filterMap,
-								$elm$core$List$tail,
-								A2(
-									$elm$core$List$map,
-									$elm$core$String$split('\n'),
-									mapStr))))));
-		} else {
-			return _Utils_Tuple2(_List_Nil, _List_Nil);
-		}
-	}();
-	var seeds = _v0.a;
-	var maps = _v0.b;
-	return {
-		fertToWatr: firstValToRange(
-			A2($elm$core$List$drop, 2, maps)),
-		humdToloct: firstValToRange(
-			A2($elm$core$List$drop, 6, maps)),
-		ligtToTemp: firstValToRange(
-			A2($elm$core$List$drop, 4, maps)),
-		seedToSoil: firstValToRange(
-			A2($elm$core$List$take, 1, maps)),
-		seeds: seeds,
-		soilToFert: firstValToRange(
-			A2($elm$core$List$drop, 1, maps)),
-		tempToHumd: firstValToRange(
-			A2($elm$core$List$drop, 5, maps)),
-		watrToLigt: firstValToRange(
-			A2($elm$core$List$drop, 3, maps))
-	};
+							$elm$core$String$split(':'),
+							$elm$core$String$lines(str)))))));
 };
 var $elm$core$Debug$toString = _Debug_toString;
-var $author$project$Day5$part2 = function (input) {
+var $author$project$Day6$part2 = function (input) {
 	return $elm$core$Debug$toString(
-		$author$project$Day5$toAlamanac2(input));
+		$author$project$Day6$solve(
+			$author$project$Day6$toRace(input)));
 };
-var $author$project$Day5$solution = _Utils_Tuple2($author$project$Day5$part1, $author$project$Day5$part2);
+var $author$project$Day6$solution = _Utils_Tuple2($author$project$Day6$part1, $author$project$Day6$part2);
 var $author$project$Main$mainArea = function (model) {
-	var _v0 = $author$project$Day5$solution;
+	var _v0 = $author$project$Day6$solution;
 	var part1 = _v0.a;
 	var part2 = _v0.b;
 	return A2(
