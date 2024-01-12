@@ -11729,141 +11729,745 @@ var $mdgriffith$elm_ui$Element$row = F2(
 						attrs))),
 			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
 	});
-var $elm$core$List$product = function (numbers) {
-	return A3($elm$core$List$foldl, $elm$core$Basics$mul, 1, numbers);
+var $author$project$Day7$PartOne = {$: 'PartOne'};
+var $author$project$Day7$Err = {$: 'Err'};
+var $elm$core$String$cons = _String_cons;
+var $elm$core$String$fromChar = function (_char) {
+	return A2($elm$core$String$cons, _char, '');
 };
+var $elm$core$List$member = F2(
+	function (x, xs) {
+		return A2(
+			$elm$core$List$any,
+			function (a) {
+				return _Utils_eq(a, x);
+			},
+			xs);
+	});
+var $elm$core$String$foldr = _String_foldr;
+var $elm$core$String$toList = function (string) {
+	return A3($elm$core$String$foldr, $elm$core$List$cons, _List_Nil, string);
+};
+var $author$project$Day7$cardValue = F2(
+	function (problem, c) {
+		var validChars = $elm$core$String$toList('23456789');
+		switch (c.valueOf()) {
+			case 'A':
+				return $elm$core$Maybe$Just(14);
+			case 'K':
+				return $elm$core$Maybe$Just(13);
+			case 'Q':
+				return $elm$core$Maybe$Just(12);
+			case 'J':
+				if (problem.$ === 'PartOne') {
+					return $elm$core$Maybe$Just(11);
+				} else {
+					return $elm$core$Maybe$Just(1);
+				}
+			case 'T':
+				return $elm$core$Maybe$Just(10);
+			default:
+				var n = c;
+				return A2($elm$core$List$member, n, validChars) ? $elm$core$String$toInt(
+					$elm$core$String$fromChar(n)) : $elm$core$Maybe$Nothing;
+		}
+	});
 var $elm$core$String$lines = _String_lines;
-var $elm$core$List$tail = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(xs);
-	} else {
-		return $elm$core$Maybe$Nothing;
+var $author$project$Day7$FiveOfaKind = {$: 'FiveOfaKind'};
+var $author$project$Day7$FourOfaKind = {$: 'FourOfaKind'};
+var $author$project$Day7$FullHouse = {$: 'FullHouse'};
+var $author$project$Day7$HighCard = {$: 'HighCard'};
+var $author$project$Day7$OnePair = {$: 'OnePair'};
+var $author$project$Day7$ThreeOfaKind = {$: 'ThreeOfaKind'};
+var $author$project$Day7$TwoPair = {$: 'TwoPair'};
+var $elm$core$Dict$foldl = F3(
+	function (func, acc, dict) {
+		foldl:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return acc;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var $temp$func = func,
+					$temp$acc = A3(
+					func,
+					key,
+					value,
+					A3($elm$core$Dict$foldl, func, acc, left)),
+					$temp$dict = right;
+				func = $temp$func;
+				acc = $temp$acc;
+				dict = $temp$dict;
+				continue foldl;
+			}
+		}
+	});
+var $author$project$Day7$allEqual = F2(
+	function (n, dic) {
+		return A3(
+			$elm$core$Dict$foldl,
+			F3(
+				function (_v0, v, acc) {
+					return _Utils_eq(v, n) && acc;
+				}),
+			true,
+			dic);
+	});
+var $author$project$Day7$anyEqual = F2(
+	function (n, dic) {
+		return A3(
+			$elm$core$Dict$foldl,
+			F3(
+				function (_v0, v, acc) {
+					return _Utils_eq(v, n) || acc;
+				}),
+			false,
+			dic);
+	});
+var $elm_community$list_extra$List$Extra$indexedFoldr = F3(
+	function (func, acc, list) {
+		var step = F2(
+			function (x, _v0) {
+				var i = _v0.a;
+				var thisAcc = _v0.b;
+				return _Utils_Tuple2(
+					i - 1,
+					A3(func, i, x, thisAcc));
+			});
+		return A3(
+			$elm$core$List$foldr,
+			step,
+			_Utils_Tuple2(
+				$elm$core$List$length(list) - 1,
+				acc),
+			list).b;
+	});
+var $elm_community$list_extra$List$Extra$findIndices = function (predicate) {
+	var consIndexIf = F3(
+		function (index, x, acc) {
+			return predicate(x) ? A2($elm$core$List$cons, index, acc) : acc;
+		});
+	return A2($elm_community$list_extra$List$Extra$indexedFoldr, consIndexIf, _List_Nil);
+};
+var $elm_community$list_extra$List$Extra$groupWhile = F2(
+	function (isSameGroup, items) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, acc) {
+					if (!acc.b) {
+						return _List_fromArray(
+							[
+								_Utils_Tuple2(x, _List_Nil)
+							]);
+					} else {
+						var _v1 = acc.a;
+						var y = _v1.a;
+						var restOfGroup = _v1.b;
+						var groups = acc.b;
+						return A2(isSameGroup, x, y) ? A2(
+							$elm$core$List$cons,
+							_Utils_Tuple2(
+								x,
+								A2($elm$core$List$cons, y, restOfGroup)),
+							groups) : A2(
+							$elm$core$List$cons,
+							_Utils_Tuple2(x, _List_Nil),
+							acc);
+					}
+				}),
+			_List_Nil,
+			items);
+	});
+var $elm_community$list_extra$List$Extra$group = $elm_community$list_extra$List$Extra$groupWhile($elm$core$Basics$eq);
+var $elm$core$List$sortBy = _List_sortBy;
+var $elm$core$List$sort = function (xs) {
+	return A2($elm$core$List$sortBy, $elm$core$Basics$identity, xs);
+};
+var $elm_community$list_extra$List$Extra$frequencies = function (list) {
+	return A2(
+		$elm$core$List$map,
+		function (_v0) {
+			var x = _v0.a;
+			var y = _v0.b;
+			return _Utils_Tuple2(
+				x,
+				1 + $elm$core$List$length(y));
+		},
+		$elm_community$list_extra$List$Extra$group(
+			$elm$core$List$sort(list)));
+};
+var $elm$core$Dict$fromList = function (assocs) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (_v0, dict) {
+				var key = _v0.a;
+				var value = _v0.b;
+				return A3($elm$core$Dict$insert, key, value, dict);
+			}),
+		$elm$core$Dict$empty,
+		assocs);
+};
+var $elm$core$Dict$getMin = function (dict) {
+	getMin:
+	while (true) {
+		if ((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) {
+			var left = dict.d;
+			var $temp$dict = left;
+			dict = $temp$dict;
+			continue getMin;
+		} else {
+			return dict;
+		}
 	}
 };
-var $elm$core$String$toFloat = _String_toFloat;
-var $author$project$Day6$toRaces = function (str) {
-	return function (lst) {
-		if ((lst.b && lst.b.b) && (!lst.b.b.b)) {
-			var time = lst.a;
-			var _v1 = lst.b;
-			var distance = _v1.a;
-			return A3(
-				$elm$core$List$map2,
-				F2(
-					function (t, d) {
-						return {distance: d, time: t};
-					}),
-				time,
-				distance);
+var $elm$core$Dict$moveRedLeft = function (dict) {
+	if (((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) && (dict.e.$ === 'RBNode_elm_builtin')) {
+		if ((dict.e.d.$ === 'RBNode_elm_builtin') && (dict.e.d.a.$ === 'Red')) {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v1 = dict.d;
+			var lClr = _v1.a;
+			var lK = _v1.b;
+			var lV = _v1.c;
+			var lLeft = _v1.d;
+			var lRight = _v1.e;
+			var _v2 = dict.e;
+			var rClr = _v2.a;
+			var rK = _v2.b;
+			var rV = _v2.c;
+			var rLeft = _v2.d;
+			var _v3 = rLeft.a;
+			var rlK = rLeft.b;
+			var rlV = rLeft.c;
+			var rlL = rLeft.d;
+			var rlR = rLeft.e;
+			var rRight = _v2.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				$elm$core$Dict$Red,
+				rlK,
+				rlV,
+				A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					rlL),
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, rK, rV, rlR, rRight));
 		} else {
-			return _List_Nil;
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v4 = dict.d;
+			var lClr = _v4.a;
+			var lK = _v4.b;
+			var lV = _v4.c;
+			var lLeft = _v4.d;
+			var lRight = _v4.e;
+			var _v5 = dict.e;
+			var rClr = _v5.a;
+			var rK = _v5.b;
+			var rV = _v5.c;
+			var rLeft = _v5.d;
+			var rRight = _v5.e;
+			if (clr.$ === 'Black') {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			}
 		}
-	}(
-		A2(
-			$elm$core$List$map,
-			$elm$core$List$filterMap($elm$core$String$toFloat),
-			A2(
-				$elm$core$List$map,
-				$elm$core$List$filter(
-					A2($elm$core$Basics$composeL, $elm$core$Basics$not, $elm$core$String$isEmpty)),
-				A2(
-					$elm$core$List$map,
-					$elm$core$String$split(' '),
-					$elm$core$List$concat(
-						A2(
-							$elm$core$List$filterMap,
-							$elm$core$List$tail,
-							A2(
-								$elm$core$List$map,
-								$elm$core$String$split(':'),
-								$elm$core$String$lines(str))))))));
+	} else {
+		return dict;
+	}
 };
-var $author$project$Day6$waysToWin = function (race) {
-	var time = $elm$core$Basics$round(race.time);
-	var distance = $elm$core$Basics$round(race.distance);
-	return A2(
-		$elm$core$List$filter,
-		function (d) {
-			return _Utils_cmp(d, distance) > 0;
-		},
-		A2(
-			$elm$core$List$map,
-			function (t) {
-				return t * (time - t);
-			},
-			A2($elm$core$List$range, 0, time)));
-};
-var $author$project$Day6$part1 = function (input) {
-	return $elm$core$String$fromInt(
-		$elm$core$List$product(
-			A2(
-				$elm$core$List$map,
-				$elm$core$List$length,
-				A2(
-					$elm$core$List$map,
-					$author$project$Day6$waysToWin,
-					$author$project$Day6$toRaces(input)))));
-};
-var $elm$core$Basics$pow = _Basics_pow;
-var $elm$core$Basics$sqrt = _Basics_sqrt;
-var $author$project$Day6$solve = function (race) {
-	var xVertex = race.time / 2;
-	var yVertex = A2($elm$core$Basics$pow, xVertex, 2);
-	var isInt = function (n) {
-		return _Utils_eq(
-			n,
-			$elm$core$Basics$round(n));
-	};
-	var acc = -1;
-	var parabola = function (x) {
-		return (acc * A2($elm$core$Basics$pow, x - xVertex, 2)) + yVertex;
-	};
-	var roundingError = isInt(
-		parabola(xVertex)) ? 1 : 0;
-	var solveForX = function (y) {
-		return ((-1) * $elm$core$Basics$sqrt((y - yVertex) / acc)) + xVertex;
-	};
-	var lowerBound = solveForX(race.distance);
-	return $elm$core$Basics$round(2 * (xVertex - lowerBound)) - roundingError;
-};
-var $elm$core$String$filter = _String_filter;
-var $author$project$Day6$toRace = function (str) {
-	return function (lst) {
-		if ((lst.b && lst.b.b) && (!lst.b.b.b)) {
-			var time = lst.a;
-			var _v1 = lst.b;
-			var distance = _v1.a;
-			return {distance: distance, time: time};
+var $elm$core$Dict$moveRedRight = function (dict) {
+	if (((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) && (dict.e.$ === 'RBNode_elm_builtin')) {
+		if ((dict.d.d.$ === 'RBNode_elm_builtin') && (dict.d.d.a.$ === 'Red')) {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v1 = dict.d;
+			var lClr = _v1.a;
+			var lK = _v1.b;
+			var lV = _v1.c;
+			var _v2 = _v1.d;
+			var _v3 = _v2.a;
+			var llK = _v2.b;
+			var llV = _v2.c;
+			var llLeft = _v2.d;
+			var llRight = _v2.e;
+			var lRight = _v1.e;
+			var _v4 = dict.e;
+			var rClr = _v4.a;
+			var rK = _v4.b;
+			var rV = _v4.c;
+			var rLeft = _v4.d;
+			var rRight = _v4.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				$elm$core$Dict$Red,
+				lK,
+				lV,
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, llK, llV, llLeft, llRight),
+				A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					lRight,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight)));
 		} else {
-			return {distance: -1, time: -1};
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v5 = dict.d;
+			var lClr = _v5.a;
+			var lK = _v5.b;
+			var lV = _v5.c;
+			var lLeft = _v5.d;
+			var lRight = _v5.e;
+			var _v6 = dict.e;
+			var rClr = _v6.a;
+			var rK = _v6.b;
+			var rV = _v6.c;
+			var rLeft = _v6.d;
+			var rRight = _v6.e;
+			if (clr.$ === 'Black') {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			}
 		}
-	}(
-		A2(
-			$elm$core$List$filterMap,
-			$elm$core$String$toFloat,
-			A2(
-				$elm$core$List$map,
-				$elm$core$String$filter($elm$core$Char$isDigit),
-				$elm$core$List$concat(
+	} else {
+		return dict;
+	}
+};
+var $elm$core$Dict$removeHelpPrepEQGT = F7(
+	function (targetKey, dict, color, key, value, left, right) {
+		if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
+			var _v1 = left.a;
+			var lK = left.b;
+			var lV = left.c;
+			var lLeft = left.d;
+			var lRight = left.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				color,
+				lK,
+				lV,
+				lLeft,
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, lRight, right));
+		} else {
+			_v2$2:
+			while (true) {
+				if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Black')) {
+					if (right.d.$ === 'RBNode_elm_builtin') {
+						if (right.d.a.$ === 'Black') {
+							var _v3 = right.a;
+							var _v4 = right.d;
+							var _v5 = _v4.a;
+							return $elm$core$Dict$moveRedRight(dict);
+						} else {
+							break _v2$2;
+						}
+					} else {
+						var _v6 = right.a;
+						var _v7 = right.d;
+						return $elm$core$Dict$moveRedRight(dict);
+					}
+				} else {
+					break _v2$2;
+				}
+			}
+			return dict;
+		}
+	});
+var $elm$core$Dict$removeMin = function (dict) {
+	if ((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) {
+		var color = dict.a;
+		var key = dict.b;
+		var value = dict.c;
+		var left = dict.d;
+		var lColor = left.a;
+		var lLeft = left.d;
+		var right = dict.e;
+		if (lColor.$ === 'Black') {
+			if ((lLeft.$ === 'RBNode_elm_builtin') && (lLeft.a.$ === 'Red')) {
+				var _v3 = lLeft.a;
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					color,
+					key,
+					value,
+					$elm$core$Dict$removeMin(left),
+					right);
+			} else {
+				var _v4 = $elm$core$Dict$moveRedLeft(dict);
+				if (_v4.$ === 'RBNode_elm_builtin') {
+					var nColor = _v4.a;
+					var nKey = _v4.b;
+					var nValue = _v4.c;
+					var nLeft = _v4.d;
+					var nRight = _v4.e;
+					return A5(
+						$elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						$elm$core$Dict$removeMin(nLeft),
+						nRight);
+				} else {
+					return $elm$core$Dict$RBEmpty_elm_builtin;
+				}
+			}
+		} else {
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				color,
+				key,
+				value,
+				$elm$core$Dict$removeMin(left),
+				right);
+		}
+	} else {
+		return $elm$core$Dict$RBEmpty_elm_builtin;
+	}
+};
+var $elm$core$Dict$removeHelp = F2(
+	function (targetKey, dict) {
+		if (dict.$ === 'RBEmpty_elm_builtin') {
+			return $elm$core$Dict$RBEmpty_elm_builtin;
+		} else {
+			var color = dict.a;
+			var key = dict.b;
+			var value = dict.c;
+			var left = dict.d;
+			var right = dict.e;
+			if (_Utils_cmp(targetKey, key) < 0) {
+				if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Black')) {
+					var _v4 = left.a;
+					var lLeft = left.d;
+					if ((lLeft.$ === 'RBNode_elm_builtin') && (lLeft.a.$ === 'Red')) {
+						var _v6 = lLeft.a;
+						return A5(
+							$elm$core$Dict$RBNode_elm_builtin,
+							color,
+							key,
+							value,
+							A2($elm$core$Dict$removeHelp, targetKey, left),
+							right);
+					} else {
+						var _v7 = $elm$core$Dict$moveRedLeft(dict);
+						if (_v7.$ === 'RBNode_elm_builtin') {
+							var nColor = _v7.a;
+							var nKey = _v7.b;
+							var nValue = _v7.c;
+							var nLeft = _v7.d;
+							var nRight = _v7.e;
+							return A5(
+								$elm$core$Dict$balance,
+								nColor,
+								nKey,
+								nValue,
+								A2($elm$core$Dict$removeHelp, targetKey, nLeft),
+								nRight);
+						} else {
+							return $elm$core$Dict$RBEmpty_elm_builtin;
+						}
+					}
+				} else {
+					return A5(
+						$elm$core$Dict$RBNode_elm_builtin,
+						color,
+						key,
+						value,
+						A2($elm$core$Dict$removeHelp, targetKey, left),
+						right);
+				}
+			} else {
+				return A2(
+					$elm$core$Dict$removeHelpEQGT,
+					targetKey,
+					A7($elm$core$Dict$removeHelpPrepEQGT, targetKey, dict, color, key, value, left, right));
+			}
+		}
+	});
+var $elm$core$Dict$removeHelpEQGT = F2(
+	function (targetKey, dict) {
+		if (dict.$ === 'RBNode_elm_builtin') {
+			var color = dict.a;
+			var key = dict.b;
+			var value = dict.c;
+			var left = dict.d;
+			var right = dict.e;
+			if (_Utils_eq(targetKey, key)) {
+				var _v1 = $elm$core$Dict$getMin(right);
+				if (_v1.$ === 'RBNode_elm_builtin') {
+					var minKey = _v1.b;
+					var minValue = _v1.c;
+					return A5(
+						$elm$core$Dict$balance,
+						color,
+						minKey,
+						minValue,
+						left,
+						$elm$core$Dict$removeMin(right));
+				} else {
+					return $elm$core$Dict$RBEmpty_elm_builtin;
+				}
+			} else {
+				return A5(
+					$elm$core$Dict$balance,
+					color,
+					key,
+					value,
+					left,
+					A2($elm$core$Dict$removeHelp, targetKey, right));
+			}
+		} else {
+			return $elm$core$Dict$RBEmpty_elm_builtin;
+		}
+	});
+var $elm$core$Dict$remove = F2(
+	function (key, dict) {
+		var _v0 = A2($elm$core$Dict$removeHelp, key, dict);
+		if ((_v0.$ === 'RBNode_elm_builtin') && (_v0.a.$ === 'Red')) {
+			var _v1 = _v0.a;
+			var k = _v0.b;
+			var v = _v0.c;
+			var l = _v0.d;
+			var r = _v0.e;
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, k, v, l, r);
+		} else {
+			var x = _v0;
+			return x;
+		}
+	});
+var $elm_community$list_extra$List$Extra$uniqueHelp = F4(
+	function (f, existing, remaining, accumulator) {
+		uniqueHelp:
+		while (true) {
+			if (!remaining.b) {
+				return $elm$core$List$reverse(accumulator);
+			} else {
+				var first = remaining.a;
+				var rest = remaining.b;
+				var computedFirst = f(first);
+				if (A2($elm$core$List$member, computedFirst, existing)) {
+					var $temp$f = f,
+						$temp$existing = existing,
+						$temp$remaining = rest,
+						$temp$accumulator = accumulator;
+					f = $temp$f;
+					existing = $temp$existing;
+					remaining = $temp$remaining;
+					accumulator = $temp$accumulator;
+					continue uniqueHelp;
+				} else {
+					var $temp$f = f,
+						$temp$existing = A2($elm$core$List$cons, computedFirst, existing),
+						$temp$remaining = rest,
+						$temp$accumulator = A2($elm$core$List$cons, first, accumulator);
+					f = $temp$f;
+					existing = $temp$existing;
+					remaining = $temp$remaining;
+					accumulator = $temp$accumulator;
+					continue uniqueHelp;
+				}
+			}
+		}
+	});
+var $elm_community$list_extra$List$Extra$unique = function (list) {
+	return A4($elm_community$list_extra$List$Extra$uniqueHelp, $elm$core$Basics$identity, _List_Nil, list, _List_Nil);
+};
+var $author$project$Day7$parserHand = F2(
+	function (problem, handStr) {
+		var toTypeWithJokers = F2(
+			function (js, cardReps) {
+				return (js >= 4) ? $author$project$Day7$FiveOfaKind : (((js === 3) && A2($author$project$Day7$anyEqual, 2, cardReps)) ? $author$project$Day7$FullHouse : (((js === 3) && A2($author$project$Day7$allEqual, 1, cardReps)) ? $author$project$Day7$FourOfaKind : (((js === 2) && A2($author$project$Day7$anyEqual, 3, cardReps)) ? $author$project$Day7$FiveOfaKind : (((js === 2) && A2($author$project$Day7$anyEqual, 2, cardReps)) ? $author$project$Day7$FourOfaKind : (((js === 2) && A2($author$project$Day7$allEqual, 1, cardReps)) ? $author$project$Day7$ThreeOfaKind : (((js === 1) && A2($author$project$Day7$anyEqual, 4, cardReps)) ? $author$project$Day7$FiveOfaKind : (((js === 1) && A2($author$project$Day7$anyEqual, 3, cardReps)) ? $author$project$Day7$FourOfaKind : (((js === 1) && A2($author$project$Day7$allEqual, 2, cardReps)) ? $author$project$Day7$FullHouse : (((js === 1) && A2($author$project$Day7$anyEqual, 2, cardReps)) ? $author$project$Day7$ThreeOfaKind : (((js === 1) && A2($author$project$Day7$allEqual, 1, cardReps)) ? $author$project$Day7$TwoPair : $author$project$Day7$OnePair))))))))));
+			});
+		var totype = function (cardReps) {
+			var _v0 = A2(
+				$elm$core$Dict$get,
+				_Utils_chr('J'),
+				cardReps);
+			if (_v0.$ === 'Nothing') {
+				return A2($author$project$Day7$anyEqual, 5, cardReps) ? $author$project$Day7$FiveOfaKind : (A2($author$project$Day7$anyEqual, 4, cardReps) ? $author$project$Day7$FourOfaKind : ((A2($author$project$Day7$anyEqual, 3, cardReps) && A2($author$project$Day7$anyEqual, 2, cardReps)) ? $author$project$Day7$FullHouse : (A2($author$project$Day7$anyEqual, 3, cardReps) ? $author$project$Day7$ThreeOfaKind : (($elm$core$List$length(
 					A2(
-						$elm$core$List$filterMap,
-						$elm$core$List$tail,
+						$elm_community$list_extra$List$Extra$findIndices,
+						function (_v1) {
+							var v = _v1.b;
+							return v === 2;
+						},
+						$elm$core$Dict$toList(cardReps))) === 2) ? $author$project$Day7$TwoPair : (A2($author$project$Day7$anyEqual, 2, cardReps) ? $author$project$Day7$OnePair : (A2($author$project$Day7$allEqual, 1, cardReps) ? $author$project$Day7$HighCard : $author$project$Day7$Err))))));
+			} else {
+				var n = _v0.a;
+				if (problem.$ === 'PartOne') {
+					return totype(
+						A3(
+							$elm$core$Dict$insert,
+							_Utils_chr('X'),
+							n,
+							A2(
+								$elm$core$Dict$remove,
+								_Utils_chr('J'),
+								cardReps)));
+				} else {
+					return A2(
+						toTypeWithJokers,
+						n,
 						A2(
-							$elm$core$List$map,
-							$elm$core$String$split(':'),
-							$elm$core$String$lines(str)))))));
+							$elm$core$Dict$remove,
+							_Utils_chr('J'),
+							cardReps));
+				}
+			}
+		};
+		return totype(
+			$elm$core$Dict$fromList(
+				$elm_community$list_extra$List$Extra$unique(
+					$elm_community$list_extra$List$Extra$frequencies(
+						$elm$core$String$toList(handStr)))));
+	});
+var $author$project$Day7$parse = F2(
+	function (problem, input) {
+		var shiftBy = F2(
+			function (type_, value) {
+				switch (type_.$) {
+					case 'FiveOfaKind':
+						return value << 24;
+					case 'FourOfaKind':
+						return value << 20;
+					case 'FullHouse':
+						return value << 16;
+					case 'ThreeOfaKind':
+						return value << 12;
+					case 'TwoPair':
+						return value << 8;
+					case 'OnePair':
+						return value << 4;
+					case 'HighCard':
+						return value;
+					default:
+						return 0;
+				}
+			});
+		var toHand = function (lst) {
+			if ((lst.b && lst.b.b) && (!lst.b.b.b)) {
+				var handStr = lst.a;
+				var _v1 = lst.b;
+				var bid = _v1.a;
+				return function (hnd) {
+					return _Utils_update(
+						hnd,
+						{
+							cardValues: A2(
+								$elm$core$List$map,
+								shiftBy(hnd.type_),
+								hnd.cardValues)
+						});
+				}(
+					{
+						bid: A2(
+							$elm$core$Maybe$withDefault,
+							0,
+							$elm$core$String$toInt(bid)),
+						cardValues: A2(
+							$elm$core$List$filterMap,
+							$author$project$Day7$cardValue(problem),
+							$elm$core$String$toList(handStr)),
+						cards: handStr,
+						type_: A2($author$project$Day7$parserHand, problem, handStr)
+					});
+			} else {
+				return {
+					bid: 0,
+					cardValues: _List_fromArray(
+						[0]),
+					cards: '',
+					type_: $author$project$Day7$Err
+				};
+			}
+		};
+		return A2(
+			$elm$core$List$map,
+			toHand,
+			A2(
+				$elm$core$List$map,
+				$elm$core$String$split(' '),
+				$elm$core$String$lines(input)));
+	});
+var $elm$core$List$sum = function (numbers) {
+	return A3($elm$core$List$foldl, $elm$core$Basics$add, 0, numbers);
 };
 var $elm$core$Debug$toString = _Debug_toString;
-var $author$project$Day6$part2 = function (input) {
+var $author$project$Day7$part1 = function (input) {
 	return $elm$core$Debug$toString(
-		$author$project$Day6$solve(
-			$author$project$Day6$toRace(input)));
+		$elm$core$List$sum(
+			A2(
+				$elm$core$List$indexedMap,
+				F2(
+					function (i, h) {
+						return (i + 1) * h.bid;
+					}),
+				A2(
+					$elm$core$List$sortBy,
+					function ($) {
+						return $.cardValues;
+					},
+					A2($author$project$Day7$parse, $author$project$Day7$PartOne, input)))));
 };
-var $author$project$Day6$solution = _Utils_Tuple2($author$project$Day6$part1, $author$project$Day6$part2);
+var $author$project$Day7$PartTwo = {$: 'PartTwo'};
+var $author$project$Day7$part2 = function (input) {
+	return $elm$core$Debug$toString(
+		$elm$core$List$sum(
+			A2(
+				$elm$core$List$indexedMap,
+				F2(
+					function (i, h) {
+						return (i + 1) * h.bid;
+					}),
+				A2(
+					$elm$core$List$sortBy,
+					function ($) {
+						return $.cardValues;
+					},
+					A2($author$project$Day7$parse, $author$project$Day7$PartTwo, input)))));
+};
+var $author$project$Day7$solution = _Utils_Tuple2($author$project$Day7$part1, $author$project$Day7$part2);
 var $author$project$Main$mainArea = function (model) {
-	var _v0 = $author$project$Day6$solution;
+	var _v0 = $author$project$Day7$solution;
 	var part1 = _v0.a;
 	var part2 = _v0.b;
 	return A2(
