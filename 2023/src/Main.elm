@@ -1,10 +1,11 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
--- UPDATE the imports Day# module to test against your solution
+-- UPDATE the "import Day#" module to test against your solution.
+-- Nothing else in this file requires updating.
 
 import Browser
 import Browser.Dom exposing (Element)
-import Day7 as Day
+import Day9 as Day
 import Element exposing (Element, alignTop, centerX, column, el, fill, padding, paddingXY, rgb255, row, text, width)
 import Element.Background as Background exposing (color)
 import Element.Border exposing (rounded)

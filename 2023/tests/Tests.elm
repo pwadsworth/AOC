@@ -8,14 +8,16 @@ import Day4
 import Day5
 import Day6
 import Day7
+import Day8
+import Day9
 import Expect
 import Test exposing (Test, describe, test)
 
 
 testDay : Int
 testDay =
-    -- change this value to the day you want to test
-    7
+    -- Update this value to the day you want to test
+    9
 
 
 solutions : Array ( String -> String, String -> String )
@@ -24,7 +26,7 @@ solutions =
        and must expose a "solution" tuple of functions for
        parts 1 and 2 for that day e.g. Day1.solution = (part1Function, part2Function). The functions must be String -> String.
     -}
-    Array.fromList [ Day1.solution, Day2.solution, Day3.solution, Day4.solution, Day5.solution, Day6.solution, Day7.solution ]
+    Array.fromList [ Day1.solution, Day2.solution, Day3.solution, Day4.solution, Day5.solution, Day6.solution, Day7.solution, Day8.solution, Day9.solution ]
 
 
 suite : Test
@@ -49,7 +51,7 @@ suite =
 
 expectedResults : Array ( String, String )
 expectedResults =
-    --- Results from problem prompts (part1, part2)
+    --- Results from problem prompts (part1, part2) in day order
     Array.fromList
         [ ( "142", "281" )
         , ( "8", "2286" )
@@ -58,6 +60,8 @@ expectedResults =
         , ( "35", "46" )
         , ( "288", "71503" )
         , ( "6440", "5905" )
+        , ( "6", "6" )
+        , ( "114", "2" )
 
         -- example
         , ( "last day part1 result", "last day part2 result" )
@@ -66,7 +70,7 @@ expectedResults =
 
 inputs : Array ( String, String )
 inputs =
-    --- Example inputs from problem prompts (part1, part2)
+    --- Example inputs from problem prompts (part1, part2) in day order
     Array.fromList
         [ ( """1abc2
 pqr3stu8vwx
@@ -204,6 +208,25 @@ T55J5 684
 KK677 28
 KTJJT 220
 QQQJA 483""" )
+        , ( """LLR
+
+AAA = (BBB, BBB)
+BBB = (AAA, ZZZ)
+ZZZ = (ZZZ, ZZZ)""", """LR
+
+11A = (11B, XXX)
+11B = (XXX, 11Z)
+11Z = (11B, XXX)
+22A = (22B, XXX)
+22B = (22C, 22C)
+22C = (22Z, 22Z)
+22Z = (22B, 22B)
+XXX = (XXX, XXX)""" )
+        , ( """0 3 6 9 12 15
+1 3 6 10 15 21
+10 13 16 21 30 45""", """0 3 6 9 12 15
+1 3 6 10 15 21
+10 13 16 21 30 45""" )
 
         -- example
         , ( "last day part1 inputs"
