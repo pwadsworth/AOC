@@ -48,7 +48,7 @@ numEnclosedTiles grid =
             D.filter isVertice grid
                 |> D.keys
                 |> List.sortBy (\( x, y ) -> atan2 (toFloat x) (toFloat y))
-                |> Debug.log "Vs"
+                |> Debug.log "Vertices"
 
         a =
             let
@@ -165,60 +165,47 @@ nxtPos currentTile previousPos =
         '|' ->
             if pY > cY then
                 ( cX, cY - 1 )
-                -- |> Debug.log "t|"
 
             else
                 ( cX, cY + 1 )
 
-        -- |> Debug.log "f|"
         '-' ->
             if pX > cX then
                 ( cX - 1, cY )
-                -- |> Debug.log "t-"
 
             else
                 ( cX + 1, cY )
 
-        -- |> Debug.log "f-"
         'L' ->
             if pY >= cY then
                 ( cX, cY - 1 )
-                -- |> Debug.log "tL"
 
             else
                 ( cX + 1, cY )
 
-        -- |> Debug.log "fL"
         'J' ->
             if pY >= cY then
                 ( cX, cY - 1 )
-                -- |> Debug.log "tJ"
 
             else
                 ( cX - 1, cY )
 
-        -- |> Debug.log "fJ"
         '7' ->
             if pY <= cY then
                 ( cX, cY + 1 )
-                -- |> Debug.log "t7"
 
             else
                 ( cX - 1, cY )
 
-        -- |> Debug.log "f7"
         'F' ->
             if pY > cY then
                 ( cX + 1, cY )
-                -- |> Debug.log "tF"
 
             else
                 ( cX, cY + 1 )
 
-        -- |> Debug.log "fF"
         'S' ->
             ( cX + 1, cY )
 
-        -- |> Debug.log "S"
         _ ->
             ( cX, cY )
