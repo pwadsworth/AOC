@@ -1,4 +1,4 @@
-module Day3 exposing (..)
+module Day3 exposing (solution)
 
 import Dict
 import Html.Attributes exposing (coords)

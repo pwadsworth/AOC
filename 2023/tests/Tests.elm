@@ -2,6 +2,7 @@ module Tests exposing (suite)
 
 import Array exposing (Array)
 import Day1
+import Day10
 import Day2
 import Day3
 import Day4
@@ -17,7 +18,7 @@ import Test exposing (Test, describe, test)
 testDay : Int
 testDay =
     -- Update this value to the day you want to test
-    9
+    10
 
 
 solutions : Array ( String -> String, String -> String )
@@ -26,7 +27,7 @@ solutions =
        and must expose a "solution" tuple of functions for
        parts 1 and 2 for that day e.g. Day1.solution = (part1Function, part2Function). The functions must be String -> String.
     -}
-    Array.fromList [ Day1.solution, Day2.solution, Day3.solution, Day4.solution, Day5.solution, Day6.solution, Day7.solution, Day8.solution, Day9.solution ]
+    Array.fromList [ Day1.solution, Day2.solution, Day3.solution, Day4.solution, Day5.solution, Day6.solution, Day7.solution, Day8.solution, Day9.solution, Day10.solution ]
 
 
 suite : Test
@@ -62,6 +63,7 @@ expectedResults =
         , ( "6440", "5905" )
         , ( "6", "6" )
         , ( "114", "2" )
+        , ( "8", "4" )
 
         -- example
         , ( "last day part1 result", "last day part2 result" )
@@ -227,6 +229,18 @@ XXX = (XXX, XXX)""" )
 10 13 16 21 30 45""", """0 3 6 9 12 15
 1 3 6 10 15 21
 10 13 16 21 30 45""" )
+        , ( """..F7.
+.FJ|.
+SJ.L7
+|F--J
+LJ...""", """.S-------7.
+.|F-----7|.
+.||.....||.
+.||.....||.
+.|L-7.F-J|.
+.|..|.|..|.
+.L--J.L--J.
+...........""" )
 
         -- example
         , ( "last day part1 inputs"

@@ -1,4 +1,4 @@
-module Day9 exposing (..)
+module Day9 exposing (solution)
 
 
 solution : ( String -> String, String -> String )
